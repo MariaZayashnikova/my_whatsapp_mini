@@ -1,0 +1,8 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right bottom, #046847, rgb(12, 145, 56));
+    color: white;
+}

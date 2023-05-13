@@ -1,0 +1,9 @@
+.app {
+    font-family: "cursive";
+    background-image: linear-gradient(to right bottom, #eaeeecd7, rgba(211, 209, 211, 0.849));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+    height: 100vh;
+}
