@@ -3,7 +3,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import AuthorizationPage from '../pages/Authorization-page/Authorization-page';
-import Chat from '../pages/Chat-page/Chat';
+import ChatPage from '../pages/Chat-page/Chat-page';
 import { setIdApi } from '../actions';
 import './App.css';
 
@@ -20,7 +20,7 @@ function App({ idInstance, setIdApi }) {
   return (
     <div className="app">
       <Header />
-      {idInstance ? <Chat /> : <AuthorizationPage />}
+      {idInstance ? <ChatPage /> : <AuthorizationPage />}
     </div>
   );
 }
