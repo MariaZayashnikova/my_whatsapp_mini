@@ -22,6 +22,10 @@ function AuthorizationPage({ setIdApi, error, setError }) {
                 if (value.stateInstance === "authorized") setIdApi(data);
                 else setError(true);
             })
+            .then(() => {
+                sessionStorage.setItem('idInstance', data.idInstance);
+                sessionStorage.setItem('apiTokenInstance', data.apiTokenInstance);
+            })
             .catch(() => setError(true));
     }
 
