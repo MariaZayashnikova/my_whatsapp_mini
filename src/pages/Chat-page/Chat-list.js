@@ -4,19 +4,29 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
-import { savePhone, openChat } from "../../actions";
+import { savePhone, openChat, setError } from "../../actions";
+import { ErrorMessage } from "../../utilities";
 
-function ChatList({ savePhone, chats, openChat }) {
+function ChatList({ savePhone, chats, openChat, setError, error }) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    function checkPhone(number) {
+        if (/7\d\d\d\d\d\d\d\d\d\d/.test(number)) return true;
+        else return false
+    }
+
     function createChat(e) {
         e.preventDefault();
         let newPhone = new FormData(e.target).get('phone');
-        handleClose();
-        savePhone(newPhone);
-        console.log('chats', chats);
+        if (checkPhone(newPhone)) {
+            handleClose();
+            savePhone(newPhone);
+            console.log('chats', chats);
+        } else {
+            setError(true);
+        }
     }
 
     return (
@@ -40,10 +50,11 @@ function ChatList({ savePhone, chats, openChat }) {
                 <Form onSubmit={(e) => createChat(e)}>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control type="text" name="phone" id="phone" placeholder="Введите номер телефона" />
+                            <Form.Control type="phone" name="phone" id="phone" placeholder="Введите номер телефона собеседника" />
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
+                        {error ? ErrorMessage('номер не соответствует формату 7ХХХХХХХХХХ') : null}
                         <Button variant="primary" onClick={handleClose}>
                             Создать
                         </Button>
@@ -54,11 +65,12 @@ function ChatList({ savePhone, chats, openChat }) {
     )
 }
 
-const mapStateToProps = ({ chats }) => ({ chats })
+const mapStateToProps = ({ chats, error }) => ({ chats, error })
 
 const mapDispatchToProps = {
     savePhone,
-    openChat
+    openChat,
+    setError
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatList);

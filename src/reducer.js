@@ -25,12 +25,13 @@ const reducer = (state = initialState, action) => {
         case 'savePhone':
             let data = {
                 'phone': action.value,
-                'massages': null,
+                'messages': []
             }
             let newChats = state.chats;
             newChats.push(data);
             return {
                 ...state,
+                error: false,
                 chats: newChats,
                 activeChat: action.value
             }
@@ -43,6 +44,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 activeChat: null
+            }
+        case 'addMyAnswer':
+            let newMessages = state.chats.filter(() => true);
+            newMessages.forEach(item => {
+                if (item.phone === action.value.phone) {
+                    item.messages.push({ 'my': action.value.message })
+                }
+            });
+            return {
+                ...state,
+                chats: newMessages
             }
         default:
             return state
