@@ -2,7 +2,9 @@ const initialState = {
     loading: false,
     error: false,
     idInstance: null,
-    apiTokenInstance: null
+    apiTokenInstance: null,
+    chats: [],
+    activeChat: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -19,6 +21,28 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: action.value
+            }
+        case 'savePhone':
+            let data = {
+                'phone': action.value,
+                'massages': null,
+            }
+            let newChats = state.chats;
+            newChats.push(data);
+            return {
+                ...state,
+                chats: newChats,
+                activeChat: action.value
+            }
+        case 'openChat':
+            return {
+                ...state,
+                activeChat: action.value
+            }
+        case 'closeChat':
+            return {
+                ...state,
+                activeChat: null
             }
         default:
             return state

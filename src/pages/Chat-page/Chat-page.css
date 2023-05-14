@@ -37,3 +37,12 @@
 .answer {
     margin: 5px;
 }
+
+.selected {
+    cursor: pointer;
+}
+
+.selected:hover {
+    box-shadow: 1px 1px 15px -3px grey;
+    border-radius: 15px;
+}
