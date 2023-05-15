@@ -18,6 +18,8 @@
 }
 
 .chat__info {
+    display: flex;
+    justify-content: space-between;
     background-color: white;
     padding: 5px;
 }
@@ -45,4 +47,8 @@
 .selected:hover {
     box-shadow: 1px 1px 15px -3px grey;
     border-radius: 15px;
+}
+
+.toast-header .btn-close {
+    display: none;
 }

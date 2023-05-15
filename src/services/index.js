@@ -29,4 +29,19 @@ export default class GreenApi {
 
         return await res.json();
     }
+
+    deleteNotification = async (data) => {
+        const res = await fetch(`${this._ApiBase}${data.idInstance}/DeleteNotification/${data.apiTokenInstance}/${data.receiptId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+
+        if (!res.ok) {
+            throw new Error(`Ошбика по адресу: ${this._ApiBase}, Статус: ${res.status}`);
+        }
+
+        return await res.json();
+    }
 }

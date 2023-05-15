@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import CloseButton from 'react-bootstrap/CloseButton';
 import { closeChat, setError, addMyAnswer } from "../../actions";
 import GreenApi from "../../services";
+import { createDate } from "../../utilities";
 
 function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setError, error, addMyAnswer }) {
     const greenApi = new GreenApi();
@@ -28,7 +29,7 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
                 'message': message
             }
         }
-
+        e.target.reset();
         greenApi.postService(data, 'SendMessage')
             .then(value => {
                 if (value.idMessage) {
@@ -41,6 +42,7 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
             })
             .catch((e) => console.log('error post service', e))
     }
+
     return (
         <div className="chat">
             {activeChat ? (
@@ -53,6 +55,7 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
                             {messages.map((item, i) => {
                                 return (
                                     <Toast key={i} className={item.my ? 'my-message' : null}>
+                                        <Toast.Header>{createDate(item.time)}</Toast.Header>
                                         <Toast.Body>{item.my || item.another}</Toast.Body>
                                     </Toast>
                                 )

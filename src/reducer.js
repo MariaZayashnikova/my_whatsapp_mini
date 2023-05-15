@@ -8,6 +8,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
+    let newChats;
     switch (action.type) {
         case 'setIdApi':
             return {
@@ -27,7 +28,7 @@ const reducer = (state = initialState, action) => {
                 'phone': action.value,
                 'messages': []
             }
-            let newChats = state.chats;
+            newChats = state.chats.filter(() => true);
             newChats.push(data);
             return {
                 ...state,
@@ -46,15 +47,34 @@ const reducer = (state = initialState, action) => {
                 activeChat: null
             }
         case 'addMyAnswer':
-            let newMessages = state.chats.filter(() => true);
-            newMessages.forEach(item => {
+            newChats = state.chats.filter(() => true);
+            newChats.forEach(item => {
                 if (item.phone === action.value.phone) {
-                    item.messages.push({ 'my': action.value.message })
+                    item.messages.push({ 'my': action.value.message, 'time': new Date().getTime() });
                 }
             });
             return {
                 ...state,
-                chats: newMessages
+                chats: newChats
+            }
+        case 'addAnotherAnswer':
+            newChats = state.chats.filter(() => true);
+            newChats.forEach(item => {
+                if (item.phone == action.value.phone) {
+                    let isDouble = false;
+                    item.messages.forEach(item => {
+                        if (item.time === action.value.message.timestamp) {
+                            isDouble = true;
+                        }
+                    });
+                    if (!isDouble) {
+                        item.messages.push({ 'another': action.value.message.messageData.textMessageData.textMessage, 'time': action.value.message.timestamp });
+                    }
+                }
+            });
+            return {
+                ...state,
+                chats: newChats
             }
         default:
             return state

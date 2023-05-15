@@ -23,7 +23,6 @@ function ChatList({ savePhone, chats, openChat, setError, error }) {
         if (checkPhone(newPhone)) {
             handleClose();
             savePhone(newPhone);
-            console.log('chats', chats);
         } else {
             setError(true);
         }
