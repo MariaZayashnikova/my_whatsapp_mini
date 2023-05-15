@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import ChatList from "./Chat-list";
 import Chat from "./Chat";
 import GreenApi from "../../services";
-import { addAnotherAnswer, addSavedChats } from '../../actions';
+import { addAnotherAnswer, addSavedChats, saveWid } from '../../actions';
 import { saveChats } from "../../utilities";
 import './Chat-page.css';
 
-function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer, chats, addSavedChats }) {
+function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer, chats, addSavedChats, saveWid }) {
     const greenApi = new GreenApi();
 
     const data = {
@@ -38,6 +38,14 @@ function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer, chats, addSa
     }
 
     useEffect(() => {
+        greenApi.getService(data, 'GetSettings')
+            .then(res => {
+                let wid = res.wid.replace(/\D/g, '');
+                saveWid(wid);
+            })
+    }, [])
+
+    useEffect(() => {
         checkNotification();
     }, [])
 
@@ -66,7 +74,8 @@ const mapStateToProps = ({ idInstance, apiTokenInstance, chats }) => ({ idInstan
 
 const mapDispatchToProps = {
     addAnotherAnswer,
-    addSavedChats
+    addSavedChats,
+    saveWid
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatPage);

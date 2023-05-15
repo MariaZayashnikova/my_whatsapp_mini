@@ -4,17 +4,17 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
-import { savePhone, openChat, setError } from "../../actions";
+import { savePhone, openChat, setError, logOut } from "../../actions";
 import { ErrorMessage } from "../../utilities";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function ChatList({ savePhone, chats, openChat, setError, error }) {
+function ChatList({ savePhone, chats, openChat, setError, error, myWid, logOut, noRead }) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     function checkPhone(number) {
-        if (/7\d\d\d\d\d\d\d\d\d\d/.test(number)) return true;
-        else return false
+        return /^7\d\d\d\d\d\d\d\d\d\d/.test(number)
     }
 
     function createChat(e) {
@@ -28,15 +28,26 @@ function ChatList({ savePhone, chats, openChat, setError, error }) {
         }
     }
 
+    function LogOut() {
+        sessionStorage.clear();
+        logOut();
+    }
+
     return (
         <div className="chat-list">
             <ListGroup variant="flush">
-                <ListGroup.Item>Здесь будет инфа по аккаунту</ListGroup.Item>
+                <ListGroup.Item className="settings bg_grey">
+                    <span>{myWid}</span>
+                    <Button variant="light" onClick={() => LogOut()}>Выйти</Button>
+                </ListGroup.Item>
                 <ListGroup.Item className="selected" onClick={() => handleShow()}>+ Новый чат</ListGroup.Item>
                 {chats.length > 0 ? (
                     chats.map((item, i) => {
                         return (
-                            <ListGroup.Item key={i} className="selected" onClick={() => openChat(item.phone)}>{item.phone}</ListGroup.Item>
+                            <ListGroup.Item key={i} className={noRead.includes(item.phone) ? "chat-list-item selected" : "selected"} onClick={() => openChat(item.phone)}>
+                                {item.phone}
+                                {noRead.includes(item.phone) ? <FontAwesomeIcon icon="fa-solid fa-circle-exclamation" color="green" /> : null}
+                            </ListGroup.Item>
                         )
                     })
                 ) : null}
@@ -49,7 +60,7 @@ function ChatList({ savePhone, chats, openChat, setError, error }) {
                 <Form onSubmit={(e) => createChat(e)}>
                     <Modal.Body>
                         <Form.Group>
-                            <Form.Control type="phone" name="phone" id="phone" placeholder="Введите номер телефона собеседника" />
+                            <Form.Control type="phone" name="phone" id="phone" autoFocus placeholder="Введите номер телефона собеседника" />
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
@@ -64,12 +75,13 @@ function ChatList({ savePhone, chats, openChat, setError, error }) {
     )
 }
 
-const mapStateToProps = ({ chats, error }) => ({ chats, error })
+const mapStateToProps = ({ chats, error, myWid, noRead }) => ({ chats, error, myWid, noRead })
 
 const mapDispatchToProps = {
     savePhone,
     openChat,
-    setError
+    setError,
+    logOut
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatList);

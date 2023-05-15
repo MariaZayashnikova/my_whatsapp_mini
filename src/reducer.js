@@ -4,7 +4,9 @@ const initialState = {
     idInstance: null,
     apiTokenInstance: null,
     chats: [],
-    activeChat: null
+    activeChat: null,
+    myWid: null,
+    noRead: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -37,9 +39,12 @@ const reducer = (state = initialState, action) => {
                 activeChat: action.value
             }
         case 'openChat':
+            let read = state.noRead.filter(() => true);
+            let newRead = read.filter(item => item !== action.value)
             return {
                 ...state,
-                activeChat: action.value
+                activeChat: action.value,
+                noRead: newRead
             }
         case 'closeChat':
             return {
@@ -72,14 +77,35 @@ const reducer = (state = initialState, action) => {
                     }
                 }
             });
-            return {
-                ...state,
-                chats: newChats
+            let isRead = state.noRead.filter(() => true);
+            if (action.value.phone == state.activeChat) {
+                return {
+                    ...state,
+                    chats: newChats
+                }
+            } else {
+                isRead.push(action.value.phone);
+                return {
+                    ...state,
+                    chats: newChats,
+                    noRead: isRead
+                }
             }
         case 'addSavedChats':
             return {
                 ...state,
                 chats: action.value
+            }
+        case 'saveWid':
+            return {
+                ...state,
+                myWid: action.value
+            }
+        case 'logOut':
+            return {
+                ...state,
+                idInstance: null,
+                apiTokenInstance: null
             }
         default:
             return state

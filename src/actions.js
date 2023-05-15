@@ -6,3 +6,6 @@ export const closeChat = () => ({ type: 'closeChat' });
 export const addMyAnswer = (value) => ({ type: 'addMyAnswer', value: value });
 export const addAnotherAnswer = (value) => ({ type: 'addAnotherAnswer', value: value });
 export const addSavedChats = (value) => ({ type: 'addSavedChats', value: value });
+export const saveWid = (value) => ({ type: 'saveWid', value: value });
+export const logOut = () => ({ type: 'logOut' });
+export const removeNoRead = (value) => ({ type: 'removeNoRead', value: value });

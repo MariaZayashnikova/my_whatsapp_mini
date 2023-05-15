@@ -9,6 +9,23 @@
     background-color: white;
 }
 
+.bg_grey {
+    background-color: rgb(226, 223, 223) !important;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+}
+
+.settings {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-list-item {
+    display: flex !important;
+    justify-content: space-between;
+}
+
 .chat {
     display: flex;
     flex-direction: column;
@@ -21,7 +38,7 @@
     display: flex;
     justify-content: space-between;
     background-color: white;
-    padding: 5px;
+    padding: 8px 16px;
 }
 
 .dialogue {

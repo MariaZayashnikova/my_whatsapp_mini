@@ -47,7 +47,8 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
         <div className="chat">
             {activeChat ? (
                 <>
-                    <div className="chat__info">{activeChat}
+                    <div className="chat__info bg_grey">
+                        {activeChat}
                         <CloseButton onClick={() => closeChat()} />
                     </div>
                     {messages.length > 0 ? (
@@ -75,7 +76,7 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
     )
 }
 
-const mapStateToProps = ({ activeChat, chats, idInstance, apiTokenInstance, error }) => ({ activeChat, chats, idInstance, apiTokenInstance, error })
+const mapStateToProps = ({ activeChat, chats, idInstance, apiTokenInstance, error, noRead }) => ({ activeChat, chats, idInstance, apiTokenInstance, error, noRead })
 
 const mapDispatchToProps = {
     closeChat,
