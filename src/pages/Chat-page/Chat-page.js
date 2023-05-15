@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import ChatList from "./Chat-list";
 import Chat from "./Chat";
 import GreenApi from "../../services";
-import { addAnotherAnswer } from '../../actions';
+import { addAnotherAnswer, addSavedChats } from '../../actions';
+import { saveChats } from "../../utilities";
 import './Chat-page.css';
 
-function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer }) {
+function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer, chats, addSavedChats }) {
     const greenApi = new GreenApi();
 
     const data = {
@@ -40,6 +41,19 @@ function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer }) {
         checkNotification();
     }, [])
 
+    useEffect(() => {
+        if (chats.length > 0) saveChats(chats);
+    }, [chats])
+
+    useEffect(() => {
+        if (chats.length <= 0) {
+            if (sessionStorage.getItem('chats')) {
+                let data = JSON.parse(sessionStorage.getItem('chats'));
+                addSavedChats(data);
+            }
+        }
+    }, [])
+
     return (
         <div className="chat-page">
             <ChatList />
@@ -48,10 +62,11 @@ function ChatPage({ idInstance, apiTokenInstance, addAnotherAnswer }) {
     )
 }
 
-const mapStateToProps = ({ idInstance, apiTokenInstance }) => ({ idInstance, apiTokenInstance })
+const mapStateToProps = ({ idInstance, apiTokenInstance, chats }) => ({ idInstance, apiTokenInstance, chats })
 
 const mapDispatchToProps = {
-    addAnotherAnswer
+    addAnotherAnswer,
+    addSavedChats
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatPage);

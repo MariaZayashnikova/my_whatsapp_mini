@@ -76,6 +76,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 chats: newChats
             }
+        case 'addSavedChats':
+            return {
+                ...state,
+                chats: action.value
+            }
         default:
             return state
     }

@@ -7,7 +7,6 @@ function ErrorMessage(text) {
         </div>
     )
 }
-
 export { ErrorMessage }
 
 function addZero(num) {
@@ -26,5 +25,10 @@ function createDate(timestamp) {
 
     return `${hours}:${minutes} ${day}.${month}.${year}`
 }
-
 export { createDate }
+
+function saveChats(data) {
+    let json_chats = JSON.stringify(data);
+    sessionStorage.setItem('chats', json_chats);
+}
+export { saveChats }
