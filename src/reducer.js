@@ -10,7 +10,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    let newChats;
+    let newChats, isDouble;
     switch (action.type) {
         case 'setIdApi':
             return {
@@ -31,7 +31,11 @@ const reducer = (state = initialState, action) => {
                 'messages': []
             }
             newChats = state.chats.filter(() => true);
-            newChats.push(data);
+            isDouble = false;
+            newChats.forEach(item => {
+                if (item.phone == action.value) isDouble = true;
+            })
+            if (!isDouble) newChats.push(data);
             return {
                 ...state,
                 error: false,
@@ -43,12 +47,14 @@ const reducer = (state = initialState, action) => {
             let newRead = read.filter(item => item !== action.value)
             return {
                 ...state,
+                error: false,
                 activeChat: action.value,
                 noRead: newRead
             }
         case 'closeChat':
             return {
                 ...state,
+                error: false,
                 activeChat: null
             }
         case 'addMyAnswer':
@@ -60,13 +66,14 @@ const reducer = (state = initialState, action) => {
             });
             return {
                 ...state,
+                error: false,
                 chats: newChats
             }
         case 'addAnotherAnswer':
             newChats = state.chats.filter(() => true);
             newChats.forEach(item => {
                 if (item.phone == action.value.phone) {
-                    let isDouble = false;
+                    isDouble = false;
                     item.messages.forEach(item => {
                         if (item.time === action.value.message.timestamp) {
                             isDouble = true;
@@ -81,12 +88,14 @@ const reducer = (state = initialState, action) => {
             if (action.value.phone == state.activeChat) {
                 return {
                     ...state,
+                    error: false,
                     chats: newChats
                 }
             } else {
                 isRead.push(action.value.phone);
                 return {
                     ...state,
+                    error: false,
                     chats: newChats,
                     noRead: isRead
                 }
@@ -104,6 +113,7 @@ const reducer = (state = initialState, action) => {
         case 'logOut':
             return {
                 ...state,
+                error: false,
                 idInstance: null,
                 apiTokenInstance: null
             }

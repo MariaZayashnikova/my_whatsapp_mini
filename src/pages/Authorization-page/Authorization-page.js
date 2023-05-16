@@ -49,7 +49,7 @@ function AuthorizationPage({ setIdApi, error, setError }) {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>ApiTokenInstance</Form.Label>
-                    <Form.Control placeholder="ApiTokenInstance" name="ApiTokenInstance" id="ApiTokenInstance" />
+                    <Form.Control type="password" placeholder="ApiTokenInstance" name="ApiTokenInstance" id="ApiTokenInstance" />
                 </Form.Group>
                 <Button variant="success" type="submit">
                     Войти
@@ -66,6 +66,5 @@ const mapDispatchToProps = {
     setIdApi,
     setError
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorizationPage);

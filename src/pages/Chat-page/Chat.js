@@ -3,6 +3,7 @@ import Toast from 'react-bootstrap/Toast';
 import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
 import CloseButton from 'react-bootstrap/CloseButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { closeChat, setError, addMyAnswer } from "../../actions";
 import GreenApi from "../../services";
 import { createDate } from "../../utilities";
@@ -21,6 +22,7 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
     function sendMessage(e) {
         e.preventDefault();
         let message = new FormData(e.target).get('answer');
+        if (message.length === 0) return
         let data = {
             'idInstance': idInstance,
             'apiTokenInstance': apiTokenInstance,
@@ -52,27 +54,33 @@ function Chat({ activeChat, closeChat, chats, idInstance, apiTokenInstance, setE
                         <CloseButton onClick={() => closeChat()} />
                     </div>
                     {messages.length > 0 ? (
-                        <div className="dialogue">
-                            {messages.map((item, i) => {
-                                return (
-                                    <Toast key={i} className={item.my ? 'my-message' : null}>
-                                        <Toast.Header>{createDate(item.time)}</Toast.Header>
-                                        <Toast.Body>{item.my || item.another}</Toast.Body>
-                                    </Toast>
-                                )
-                            })}
+                        <div className="container-dialogue">
+                            <div className="dialogue">
+                                {messages.map((item, i) => {
+                                    return (
+                                        <Toast key={i} className={item.my ? 'my-message' : null}>
+                                            <Toast.Header>{createDate(item.time)}</Toast.Header>
+                                            <Toast.Body>{item.my || item.another}</Toast.Body>
+                                        </Toast>
+                                    )
+                                })}
+                            </div>
                         </div>
                     ) : null}
-                    <div className="answer">
+                    <div className="container-answer">
                         <Form onSubmit={(e) => sendMessage(e)}>
-                            <Form.Group>
-                                <Form.Control type="text" name="answer" id="answer" placeholder="Введите сообщение" maxLength={10000} />
+                            <Form.Group className="answer">
+                                <Form.Control type="text" name="answer" id="answer" placeholder="Введите сообщение" autoFocus maxLength={10000} />
+                                <button className="answer__button-send" onSubmit={(e) => sendMessage(e)} >
+                                    <FontAwesomeIcon icon="fa-solid fa-share" color="green" />
+                                </button>
                             </Form.Group>
                         </Form>
-                    </div>
+                    </div >
                 </>
-            ) : null}
-        </div>
+            ) : null
+            }
+        </div >
     )
 }
 
