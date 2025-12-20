@@ -1,7 +1,5 @@
 <h1>Проект: WhatsApp with Green-Api</h1>
 <br>
-<h2>Посмотреть развернутый проект:</h2>
-<h3>https://whatsappgreenapi.vercel.app</h3>
 <h3>Как запустить локально (windows):</h3>
 1. У Вас должен быть авторизованный аккаунт в Green-Api. Подробнее: https://green-api.com/docs/before-start/
 <br>
